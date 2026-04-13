@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+aiomysql
+greenlet
+pymysql
+pydantic
+pydantic-settings
+alembic
+python-jose[cryptography]
+python-multipart
+bcrypt
+email-validator
