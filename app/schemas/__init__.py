@@ -15,3 +15,4 @@ from .insurance import (
     PatientInsuranceBase, PatientInsuranceCreate, PatientInsuranceResponse
 )
 from .log import AccessLogBase, AccessLogCreate, AccessLogResponse
+from .blood_bank import BloodBankBase, BloodBankCreate, BloodBankUpdate, BloodBankResponse

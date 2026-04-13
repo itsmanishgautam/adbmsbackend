@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Patient, User } from "../../../types";
 import { EmergencyCard } from "../../../components/cards/EmergencyCard";
-import { Card, CardHeader, CardTitle, CardContent } from "../../../components/ui/Card";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../../../components/ui/Card";
 import { updateMe } from "../../../api/patients";
 import { Pencil, Check, X } from "lucide-react";
 

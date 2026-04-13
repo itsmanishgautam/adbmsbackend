@@ -21,6 +21,7 @@ class PatientInsurance(Base):
     member_id = Column(String(100))
     group_number = Column(String(100))
     coverage_status = Column(String(50))
+    approval_status = Column(String(20), default="pending")
 
     patient = relationship("Patient", back_populates="insurances")
     provider = relationship("InsuranceProvider", back_populates="insurances")

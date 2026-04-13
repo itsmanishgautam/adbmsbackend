@@ -6,6 +6,7 @@ class AllergyBase(BaseModel):
     patient_id: int
     allergy_name: str
     severity: Optional[str] = None
+    approval_status: Optional[str] = "pending"
 
 class AllergyCreate(AllergyBase):
     pass
@@ -20,6 +21,7 @@ class ConditionBase(BaseModel):
     patient_id: int
     condition_name: str
     critical_flag: Optional[bool] = False
+    approval_status: Optional[str] = "pending"
 
 class ConditionCreate(ConditionBase):
     pass
@@ -34,6 +36,7 @@ class MedicationBase(BaseModel):
     patient_id: int
     medication_name: str
     dosage: Optional[str] = None
+    approval_status: Optional[str] = "pending"
 
 class MedicationCreate(MedicationBase):
     pass
@@ -48,6 +51,7 @@ class DeviceBase(BaseModel):
     patient_id: int
     device_name: str
     device_type: Optional[str] = None
+    approval_status: Optional[str] = "pending"
 
 class DeviceCreate(DeviceBase):
     pass
@@ -63,6 +67,7 @@ class EmergencyContactBase(BaseModel):
     contact_name: str
     contact_relationship: Optional[str] = None
     phone_number: Optional[str] = None
+    approval_status: Optional[str] = "pending"
 
 class EmergencyContactCreate(EmergencyContactBase):
     pass

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { User } from "../../types";
 import { Card, CardContent } from "../ui/Card";
 import { ShieldCheck, ShieldAlert, CheckCircle2, XCircle, Trash2 } from "lucide-react";
@@ -39,6 +40,14 @@ export function AdminUserTable({ users, onToggleStatus, onDelete }: { users: Use
                 </td>
                 <td className="px-6 py-4 text-right">
                   <div className="flex justify-end gap-2 text-xs font-medium">
+                    {user.role === "patient" && (
+                       <Link
+                         href={`/admin/users/${user.id}`}
+                         className="px-3 py-1.5 rounded-md transition-colors text-blue-600 bg-blue-50 hover:bg-blue-100 flex items-center justify-center font-medium"
+                       >
+                         View Profile
+                       </Link>
+                    )}
                     <button
                       onClick={() => onToggleStatus(user.id, !user.is_active)}
                       className={`px-3 py-1.5 rounded-md transition-colors ${

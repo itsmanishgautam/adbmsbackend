@@ -13,4 +13,4 @@ class AccessLog(Base):
     resource = Column(String(255), nullable=True)
     timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     ip_address = Column(String(50))
-    details = Column(sqlalchemy.JSON, nullable=True)
+    details = Column(String(2000), nullable=True)

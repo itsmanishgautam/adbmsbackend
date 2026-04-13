@@ -7,6 +7,7 @@ import { getMe } from "../../api/patients";
 import { Patient } from "../../types";
 import { Activity, HeartPulse } from "lucide-react";
 import MedicalInfoTab from "./components/MedicalInfoTab";
+import { BloodBankWidget } from "./components/BloodBankWidget";
 
 export default function PatientDashboard() {
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -37,6 +38,8 @@ export default function PatientDashboard() {
               <HeartPulse className="h-4 w-4 mr-2" /> Medical Info
             </div>
           </div>
+          
+          <BloodBankWidget />
           
           <div className="mt-8 transition-all duration-300">
              <MedicalInfoTab patient={patient} />

@@ -37,7 +37,9 @@ patient_insurance = CRUDPatienInsurance(PatientInsurance)
 
 class CRUDAccessLog(CRUDBase[AccessLog, BaseModel, BaseModel]):
     async def log_action(self, db: AsyncSession, user_id: int | None, action: str, ip_address: str | None = None, resource: str | None = None, details: dict | None = None):
-        db_obj = AccessLog(user_id=user_id, action=action, ip_address=ip_address, resource=resource, details=details)
+        import json
+        details_str = json.dumps(details) if details else None
+        db_obj = AccessLog(user_id=user_id, action=action, ip_address=ip_address, resource=resource, details=details_str)
         db.add(db_obj)
         await db.commit()
 
@@ -71,3 +73,4 @@ class CRUDAccessLog(CRUDBase[AccessLog, BaseModel, BaseModel]):
         return result.scalars().all()
 
 access_log = CRUDAccessLog(AccessLog)
+from app.crud.crud_blood_bank import blood_bank

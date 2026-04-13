@@ -47,19 +47,7 @@ export default function LoginPage() {
       let userObj = response.user;
       
       if (!userObj) {
-         // Fallback if backend returned strictly OAuth payload
-         const decoded: any = jwtDecode(response.access_token);
-         // Simulate finding role from email hackily just for fallback testing
-         let mockRole = "patient";
-         if (data.username.includes("admin")) mockRole = "admin";
-         if (data.username.includes("doctor")) mockRole = "doctor";
-         
-         userObj = {
-           id: decoded.sub, 
-           email: data.username, 
-           name: "User", 
-           role: mockRole
-         };
+         throw new Error("Invalid server response. User payload missing.");
       }
       
       login(userObj, response.access_token);

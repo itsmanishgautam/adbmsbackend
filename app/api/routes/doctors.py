@@ -15,14 +15,29 @@ async def search_patient(
     db: AsyncSession = Depends(get_db),
     current_user: models.User = Depends(require_role("doctor"))
 ) -> Any:
-    patient = await crud.patient.get_by_field(db, "emergency_identifier", identifier)
-    if not patient:
-        raise HTTPException(status_code=404, detail="Patient not found for provided emergency identifier")
+    from sqlalchemy import or_
     
-    # Needs to fetch the user too to construct PatientCardResponse
+    patient_id_filter = None
+    if identifier.isdigit():
+        patient_id_filter = models.Patient.patient_id == int(identifier)
+        
+    filters = [
+        models.Patient.emergency_identifier == identifier,
+        models.User.name.ilike(f"%{identifier}%"),
+        models.User.phone_number == identifier
+    ]
+    if patient_id_filter is not None:
+        filters.append(patient_id_filter)
+        
+    query = select(models.Patient).join(models.User).filter(or_(*filters))
+    result = await db.execute(query)
+    patient = result.scalars().first()
+    
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient not found matching the provided search criteria")
+    
     user = await crud.user.get(db, id=patient.user_id)
     
-    # We dump and construct
     data = schemas.PatientResponse.model_validate(patient).model_dump()
     data["name"] = user.name
     return data

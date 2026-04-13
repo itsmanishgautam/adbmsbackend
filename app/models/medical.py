@@ -9,6 +9,7 @@ class Allergy(Base):
     patient_id = Column(Integer, ForeignKey("patients.patient_id"))
     allergy_name = Column(String(255), nullable=False)
     severity = Column(String(50))
+    approval_status = Column(String(20), default="pending")
 
     patient = relationship("Patient", back_populates="allergies")
 
@@ -19,6 +20,7 @@ class Condition(Base):
     patient_id = Column(Integer, ForeignKey("patients.patient_id"))
     condition_name = Column(String(255), nullable=False)
     critical_flag = Column(Boolean, default=False)
+    approval_status = Column(String(20), default="pending")
 
     patient = relationship("Patient", back_populates="conditions")
 
@@ -29,6 +31,7 @@ class Medication(Base):
     patient_id = Column(Integer, ForeignKey("patients.patient_id"))
     medication_name = Column(String(255), nullable=False)
     dosage = Column(String(255))
+    approval_status = Column(String(20), default="pending")
 
     patient = relationship("Patient", back_populates="medications")
 
@@ -39,6 +42,7 @@ class Device(Base):
     patient_id = Column(Integer, ForeignKey("patients.patient_id"))
     device_name = Column(String(255), nullable=False)
     device_type = Column(String(100))
+    approval_status = Column(String(20), default="pending")
 
     patient = relationship("Patient", back_populates="devices")
 
@@ -50,5 +54,6 @@ class EmergencyContact(Base):
     contact_name = Column(String(255), nullable=False)
     contact_relationship = Column(String(100))
     phone_number = Column(String(50))
+    approval_status = Column(String(20), default="pending")
 
     patient = relationship("Patient", back_populates="emergency_contacts")

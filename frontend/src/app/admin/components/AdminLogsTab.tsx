@@ -16,7 +16,10 @@ export default function AdminLogsTab() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const data = await getLogs(filters);
+      const cleanFilters = Object.fromEntries(
+        Object.entries(filters).filter(([_, v]) => v !== "")
+      );
+      const data = await getLogs(cleanFilters);
       setLogs(data);
     } catch (err) {
       console.error(err);

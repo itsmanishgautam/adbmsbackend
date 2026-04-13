@@ -22,6 +22,7 @@ class PatientInsuranceBase(BaseModel):
     member_id: Optional[str] = None
     group_number: Optional[str] = None
     coverage_status: Optional[str] = None
+    approval_status: Optional[str] = "pending"
 
 class PatientInsuranceCreate(PatientInsuranceBase):
     pass

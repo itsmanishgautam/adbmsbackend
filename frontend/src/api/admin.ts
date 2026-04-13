@@ -33,3 +33,13 @@ export const updateDoctor = async (id: number, payload: any): Promise<any> => {
 export const deleteDoctor = async (id: number): Promise<void> => {
   await api.delete(`/admin/doctors/${id}`);
 };
+
+export const getPatientProfileAdmin = async (userId: number): Promise<any> => {
+  const { data } = await api.get(`/admin/users/${userId}/patient_profile`);
+  return data;
+};
+
+export const setPatientProfileStatus = async (userId: number, status: 'approved' | 'rejected'): Promise<any> => {
+  const { data } = await api.patch(`/admin/users/${userId}/patient_profile/status?status=${status}`);
+  return data;
+};

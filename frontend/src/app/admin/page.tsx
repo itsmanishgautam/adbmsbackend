@@ -63,6 +63,20 @@ export default function AdminDashboard() {
                  </CardContent>
                </Card>
             </Link>
+
+            <Link href="/admin/blood-bank" className="block group">
+               <Card className="h-full hover:border-red-500/50 transition-colors bg-white">
+                 <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-4">
+                   <div className="p-4 bg-red-50 text-red-600 rounded-full group-hover:scale-110 transition-transform">
+                     <Activity className="h-8 w-8" />
+                   </div>
+                   <div>
+                     <h3 className="font-semibold text-lg text-slate-800">Blood Bank</h3>
+                     <p className="text-slate-500 text-sm mt-1">Manage global blood inventory</p>
+                   </div>
+                 </CardContent>
+               </Card>
+            </Link>
           </div>
         </div>
       </RoleGuard>

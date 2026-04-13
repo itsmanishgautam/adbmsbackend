@@ -127,3 +127,60 @@ async def delete_doctor(
     # the frontend might also need to delete the user.
     await log_admin_action(db, current_user, "Delete", "Doctor", {"doctor_id": id})
     return {"message": "Doctor entry deleted"}
+
+# --- Patient Management for Admin --- #
+@router.get("/users/{user_id}/patient_profile", response_model=schemas.PatientResponse)
+async def get_patient_profile_by_user_id(
+    user_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user: models.User = Depends(require_role("admin"))
+) -> Any:
+    from sqlalchemy.orm import selectinload
+    from sqlalchemy import select
+    query = select(models.Patient).options(
+        selectinload(models.Patient.allergies),
+        selectinload(models.Patient.conditions),
+        selectinload(models.Patient.medications),
+        selectinload(models.Patient.devices),
+        selectinload(models.Patient.emergency_contacts),
+        selectinload(models.Patient.insurances)
+    ).filter(models.Patient.user_id == user_id)
+    
+    result = await db.execute(query)
+    patient = result.scalars().first()
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient profile not found for this user")
+    return patient
+
+@router.patch("/users/{user_id}/patient_profile/status")
+async def set_patient_profile_status(
+    user_id: int,
+    status: str = Query(..., pattern="^(approved|rejected)$"),
+    db: AsyncSession = Depends(get_db),
+    current_user: models.User = Depends(require_role("admin"))
+) -> Any:
+    from sqlalchemy.orm import selectinload
+    from sqlalchemy import select
+    query = select(models.Patient).options(
+        selectinload(models.Patient.allergies),
+        selectinload(models.Patient.conditions),
+        selectinload(models.Patient.medications),
+        selectinload(models.Patient.devices),
+        selectinload(models.Patient.emergency_contacts),
+        selectinload(models.Patient.insurances)
+    ).filter(models.Patient.user_id == user_id)
+    
+    result = await db.execute(query)
+    patient = result.scalars().first()
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient profile not found for this user")
+        
+    patient.approval_status = status
+    
+    for coll in [patient.allergies, patient.conditions, patient.medications, patient.devices, patient.emergency_contacts, patient.insurances]:
+        for item in coll:
+            item.approval_status = status
+            
+    await db.commit()
+    await log_admin_action(db, current_user, status.capitalize(), "Patient Profile", {"target_user_id": user_id})
+    return {"message": f"Profile and all associated details {status} successfully"}
