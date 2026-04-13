@@ -1,3 +1,5 @@
+#this location is app/db/init_admin.py
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 

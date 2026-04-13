@@ -55,10 +55,3 @@ def read_root():
 
 
 
-from app.db.session import AsyncSessionLocal
-from app.db.init_admin import create_admin_user  # adjust path if needed
-
-@app.on_event("startup")
-async def startup_event():
-    async with AsyncSessionLocal() as db:
-        await create_admin_user(db)
