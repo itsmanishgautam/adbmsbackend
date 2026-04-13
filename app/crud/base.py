@@ -13,7 +13,9 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self.model = model
 
     async def get(self, db: AsyncSession, id: Any) -> Optional[ModelType]:
-        result = await db.execute(select(self.model).filter(self.model.id == id))
+        from sqlalchemy import inspect
+        pk = inspect(self.model).primary_key[0]
+        result = await db.execute(select(self.model).filter(pk == id))
         return result.scalars().first()
     
     # We add custom dynamic get_by_field method
@@ -21,6 +23,14 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         field = getattr(self.model, field_name)
         result = await db.execute(select(self.model).filter(field == value))
         return result.scalars().first()
+
+    # Get multi by field
+    async def get_multi_by_field(
+        self, db: AsyncSession, field_name: str, value: Any, *, skip: int = 0, limit: int = 100
+    ) -> List[ModelType]:
+        field = getattr(self.model, field_name)
+        result = await db.execute(select(self.model).filter(field == value).offset(skip).limit(limit))
+        return result.scalars().all()
 
     async def get_multi(
         self, db: AsyncSession, *, skip: int = 0, limit: int = 100
@@ -57,9 +67,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db_obj
 
     async def remove(self, db: AsyncSession, *, id: int) -> ModelType:
-        # Assumes pk is "id"
-        result = await db.execute(select(self.model).filter(self.model.id == id))
+        from sqlalchemy import inspect
+        pk = inspect(self.model).primary_key[0]
+        result = await db.execute(select(self.model).filter(pk == id))
         obj = result.scalars().first()
-        await db.delete(obj)
-        await db.commit()
+        if obj:
+            await db.delete(obj)
+            await db.commit()
         return obj

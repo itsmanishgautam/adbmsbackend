@@ -42,7 +42,18 @@ async def log_requests(request: Request, call_next):
     
     # We spawn a db session just to log this
     async with AsyncSessionLocal() as db:
-        await access_log.log_action(db, user_id=user_id if user_id else None, action=action_info, ip_address=ip_addr)
+        await access_log.log_action(
+            db, 
+            user_id=user_id if user_id else None, 
+            action=action_info, 
+            ip_address=ip_addr,
+            resource="SYSTEM_API",
+            details={
+                "method": request.method,
+                "path": request.url.path,
+                "query_params": str(request.query_params)
+            }
+        )
     
     return response
 

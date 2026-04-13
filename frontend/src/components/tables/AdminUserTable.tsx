@@ -1,8 +1,8 @@
 import { User } from "../../types";
 import { Card, CardContent } from "../ui/Card";
-import { ShieldCheck, ShieldAlert, CheckCircle2, XCircle } from "lucide-react";
+import { ShieldCheck, ShieldAlert, CheckCircle2, XCircle, Trash2 } from "lucide-react";
 
-export function AdminUserTable({ users, onToggleStatus }: { users: User[], onToggleStatus: (id: number, status: boolean) => void }) {
+export function AdminUserTable({ users, onToggleStatus, onDelete }: { users: User[], onToggleStatus: (id: number, status: boolean) => void, onDelete: (id: number) => void }) {
   return (
     <Card>
       <div className="overflow-x-auto">
@@ -38,14 +38,25 @@ export function AdminUserTable({ users, onToggleStatus }: { users: User[], onTog
                   )}
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <button
-                    onClick={() => onToggleStatus(user.id, !user.is_active)}
-                    className={`text-xs font-medium px-3 py-1.5 rounded-md transition-colors ${
-                      user.is_active ? "text-red-600 bg-red-50 hover:bg-red-100" : "text-green-600 bg-green-50 hover:bg-green-100"
-                    }`}
-                  >
-                    {user.is_active ? "Deactivate" : "Activate"}
-                  </button>
+                  <div className="flex justify-end gap-2 text-xs font-medium">
+                    <button
+                      onClick={() => onToggleStatus(user.id, !user.is_active)}
+                      className={`px-3 py-1.5 rounded-md transition-colors ${
+                        user.is_active ? "text-orange-600 bg-orange-50 hover:bg-orange-100" : "text-green-600 bg-green-50 hover:bg-green-100"
+                      }`}
+                    >
+                      {user.is_active ? "Deactivate" : "Activate"}
+                    </button>
+                    {user.role !== "admin" && (
+                       <button
+                         onClick={() => onDelete(user.id)}
+                         className="px-2 py-1.5 rounded-md transition-colors text-red-600 bg-red-50 hover:bg-red-100 flex items-center justify-center"
+                         title="Delete User"
+                       >
+                         <Trash2 className="h-4 w-4" />
+                       </button>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

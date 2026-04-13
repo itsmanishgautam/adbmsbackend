@@ -14,3 +14,4 @@ from .insurance import (
     InsuranceProviderBase, InsuranceProviderCreate, InsuranceProviderResponse,
     PatientInsuranceBase, PatientInsuranceCreate, PatientInsuranceResponse
 )
+from .log import AccessLogBase, AccessLogCreate, AccessLogResponse

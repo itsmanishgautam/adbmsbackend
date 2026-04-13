@@ -36,9 +36,38 @@ insurance_provider = CRUDBase[InsuranceProvider, InsuranceProviderCreate, BaseMo
 patient_insurance = CRUDPatienInsurance(PatientInsurance)
 
 class CRUDAccessLog(CRUDBase[AccessLog, BaseModel, BaseModel]):
-    async def log_action(self, db: AsyncSession, user_id: int, action: str, ip_address: str):
-        db_obj = AccessLog(user_id=user_id, action=action, ip_address=ip_address)
+    async def log_action(self, db: AsyncSession, user_id: int | None, action: str, ip_address: str | None = None, resource: str | None = None, details: dict | None = None):
+        db_obj = AccessLog(user_id=user_id, action=action, ip_address=ip_address, resource=resource, details=details)
         db.add(db_obj)
         await db.commit()
+
+    async def get_logs_filtered(self, db: AsyncSession, skip: int = 0, limit: int = 100, user_id: int | None = None, action: str | None = None, date_start: str | None = None, date_end: str | None = None):
+        from sqlalchemy import text
+        from datetime import datetime
+        
+        query = select(AccessLog)
+        
+        if user_id:
+            query = query.where(AccessLog.user_id == user_id)
+        if action:
+            query = query.where(AccessLog.action.ilike(f"%{action}%"))
+        
+        # Simple date filtering if dates are provided in isoformat
+        if date_start:
+            try:
+                start = datetime.fromisoformat(date_start.replace('Z', '+00:00'))
+                query = query.where(AccessLog.timestamp >= start)
+            except ValueError:
+                pass
+        if date_end:
+            try:
+                end = datetime.fromisoformat(date_end.replace('Z', '+00:00'))
+                query = query.where(AccessLog.timestamp <= end)
+            except ValueError:
+                pass
+                
+        query = query.order_by(AccessLog.timestamp.desc()).offset(skip).limit(limit)
+        result = await db.execute(query)
+        return result.scalars().all()
 
 access_log = CRUDAccessLog(AccessLog)

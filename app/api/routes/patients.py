@@ -27,6 +27,16 @@ async def update_patient_me(
     if not patient:
         raise HTTPException(status_code=404, detail="Patient profile not found")
     patient = await crud.patient.update(db, db_obj=patient, obj_in=patient_in)
+    
+    # Log the update
+    await crud.access_log.log_action(
+        db=db,
+        user_id=current_user.id,
+        action="Update Patient Profile",
+        resource="Patient API",
+        details=patient_in.model_dump(exclude_unset=True)
+    )
+    
     return patient
 
 @router.get("/{id}", response_model=schemas.PatientResponse)
