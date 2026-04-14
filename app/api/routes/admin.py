@@ -4,6 +4,7 @@ from typing import Any, List, Optional
 from app import crud, models, schemas
 from app.db.session import get_db
 from app.core.dependencies import require_role
+import json
 
 router = APIRouter()
 
@@ -53,6 +54,22 @@ async def delete_user(
     await log_admin_action(db, current_user, "Delete", "User", {"target_id": id})
     return {"message": "User deleted"}
 
+# @router.get("/logs", response_model=List[schemas.AccessLogResponse])
+# async def read_logs_filtered(
+#     skip: int = Query(0),
+#     limit: int = Query(100),
+#     user_id: Optional[int] = Query(None),
+#     action: Optional[str] = Query(None),
+#     startDate: Optional[str] = Query(None),
+#     endDate: Optional[str] = Query(None),
+#     db: AsyncSession = Depends(get_db),
+#     current_user: models.User = Depends(require_role("admin"))
+# ) -> Any:
+#     logs = await crud.access_log.get_logs_filtered(
+#         db, skip=skip, limit=limit, user_id=user_id, action=action, date_start=startDate, date_end=endDate
+#     )
+#     return logs
+
 @router.get("/logs", response_model=List[schemas.AccessLogResponse])
 async def read_logs_filtered(
     skip: int = Query(0),
@@ -67,6 +84,16 @@ async def read_logs_filtered(
     logs = await crud.access_log.get_logs_filtered(
         db, skip=skip, limit=limit, user_id=user_id, action=action, date_start=startDate, date_end=endDate
     )
+
+
+    for log in logs:
+        if isinstance(log.details, str):
+            try:
+                log.details = json.loads(log.details)
+            except Exception:
+                log.details = {}
+
+
     return logs
 
 # Doctor Management
