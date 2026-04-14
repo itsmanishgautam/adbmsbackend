@@ -355,7 +355,8 @@ export default function MedicalInfoTab({ patient }: { patient: Patient | null })
                   <option value="Moderate">Moderate</option>
                   <option value="Severe">Severe</option>
                 </select>
-                <button type="submit" className="bg-primary text-white p-1.5 rounded-md hover:bg-primary/90"><Plus className="h-5 w-5" /></button>
+                <button type="submit"  className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2">Add</button>
+
               </div>
             </form>
           </CardContent>
@@ -382,7 +383,9 @@ export default function MedicalInfoTab({ patient }: { patient: Patient | null })
                   <input type="checkbox" name="critical_flag" className="rounded border-red-300 text-red-600" />
                   Critical
                 </label>
-                <button type="submit" className="bg-primary text-white p-1.5 rounded-md hover:bg-primary/90"><Plus className="h-5 w-5" /></button>
+            <button type="submit"  className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2">Add</button>
+
+                
               </div>
             </form>
           </CardContent>
@@ -406,7 +409,9 @@ export default function MedicalInfoTab({ patient }: { patient: Patient | null })
               <div className="flex flex-col md:flex-row gap-2">
                 <input required name="medication_name" placeholder="Medication Name" className="flex-1 rounded-md border-slate-300 px-3 py-1.5 text-sm" />
                 <input required name="dosage" placeholder="Dosage Details" className="flex-[2] rounded-md border-slate-300 px-3 py-1.5 text-sm" />
-                <button type="submit" className="bg-primary text-white p-1.5 px-4 rounded-md hover:bg-primary/90 text-sm font-medium">Add</button>
+            <button type="submit"  className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2">Add</button>
+
+                
               </div>
             </form>
           </CardContent>
@@ -430,7 +435,8 @@ export default function MedicalInfoTab({ patient }: { patient: Patient | null })
               <div className="flex gap-2">
                 <input required name="device_name" placeholder="Device Name" className="flex-1 rounded-md border-slate-300 px-3 py-1.5 text-sm" />
                 <input required name="device_type" placeholder="Device Type" className="flex-1 rounded-md border-slate-300 px-3 py-1.5 text-sm" />
-                <button type="submit" className="bg-primary text-white p-1.5 rounded-md hover:bg-primary/90"><Plus className="h-5 w-5" /></button>
+            <button type="submit"  className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2">Add</button>
+
               </div>
             </form>
           </CardContent>
@@ -456,7 +462,16 @@ export default function MedicalInfoTab({ patient }: { patient: Patient | null })
                 <div className="flex gap-2">
                   <input required name="relationship" placeholder="Relationship" className="flex-1 rounded-md border-slate-300 px-3 py-1.5 text-sm" />
                   <input required name="phone_number" placeholder="Phone Number" className="flex-1 rounded-md border-slate-300 px-3 py-1.5 text-sm" />
-                  <button type="submit" className="bg-primary text-white p-1.5 px-4 rounded-md hover:bg-primary/90 text-sm font-medium">Add</button>
+
+
+            <button type="submit" 
+            
+             className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2"
+            
+            >Add</button>
+
+
+
                 </div>
               </div>
             </form>

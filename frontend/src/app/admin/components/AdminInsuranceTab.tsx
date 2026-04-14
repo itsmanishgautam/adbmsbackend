@@ -81,7 +81,11 @@ export default function AdminInsuranceProvidersTab() {
               <input required name="provider_name" placeholder="Provider Name (e.g. Aetna)" className="flex-1 rounded-md border border-slate-300 py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary" />
               <input name="payer_phone" placeholder="Phone (optional)" className="flex-1 rounded-md border border-slate-300 py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary" />
             </div>
-            <button type="submit" className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2">
+
+            <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2">
+
+
+            
               <Plus className="h-4 w-4" /> Add Provider
             </button>
           </form>

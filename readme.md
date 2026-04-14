@@ -29,6 +29,11 @@ docker compose down
 docker compose up --build
 ```
 
+
+## To create a admin run
+
+docker compose exec api python create_admin.py
+
 ---
 
 ## 🔥 Summary

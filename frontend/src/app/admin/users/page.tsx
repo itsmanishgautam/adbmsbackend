@@ -70,7 +70,7 @@ export default function AdminUsersPage() {
                <h2 className="text-xl font-semibold text-slate-800">Directory & Roles</h2>
                <button 
                  onClick={() => setIsModalOpen(true)} 
-                 className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2"
+                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2"
                >
                  + Add Doctor
                </button>

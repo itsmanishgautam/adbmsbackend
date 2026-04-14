@@ -113,7 +113,7 @@ export default function EmergencyCardEditor({ patient, user, onUpdated }: Props)
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium text-sm disabled:opacity-50"
+                   className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2"
                 >
                   {loading ? "Saving..." : <><Check className="h-4 w-4 inline mr-1" /> Save Changes</>}
                 </button>

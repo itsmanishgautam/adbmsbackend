@@ -61,9 +61,17 @@ export default function AdminLogsTab() {
             <input name="endDate" type="datetime-local" value={filters.endDate} onChange={(e) => setFilters({...filters, endDate: e.target.value})} className="rounded-md border-slate-300 py-1.5 px-3 text-sm flex-1" />
           </div>
           <div className="flex items-end">
-            <button type="submit" className="bg-primary text-white p-2 px-4 rounded-md flex items-center hover:bg-primary/90 transition-colors">
+
+            <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2">
               <Search className="h-4 w-4 mr-2" /> Search
+
+
+
+            
             </button>
+
+
+
           </div>
         </form>
 
