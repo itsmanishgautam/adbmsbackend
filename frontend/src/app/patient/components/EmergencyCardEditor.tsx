@@ -1,3 +1,9 @@
+//frontend/src/app/patient/components/EmergencyCardEditor.tsx
+
+//this is page for emergency card edit only.
+
+
+
 import { useState } from "react";
 import { Patient, User } from "../../../types";
 import { EmergencyCard } from "../../../components/cards/EmergencyCard";

@@ -1,3 +1,5 @@
+// frontend/src/context/userStore.ts
+
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Role } from '../types';

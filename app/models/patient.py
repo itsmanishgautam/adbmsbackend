@@ -11,7 +11,7 @@ class Patient(Base):
     blood_type = Column(String(10))
     emergency_contact_summary = Column(String(255))
     approval_status = Column(String(20), default="pending")
-
+    
     user = relationship("User", back_populates="patient_profile")
     allergies = relationship("Allergy", back_populates="patient")
     conditions = relationship("Condition", back_populates="patient")

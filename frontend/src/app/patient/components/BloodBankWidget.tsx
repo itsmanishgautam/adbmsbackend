@@ -1,3 +1,5 @@
+// frontend/src/app/patient/components/BloodBankWidget.tsx
+
 import { useState, useEffect } from "react";
 import { getBloodBank } from "../../../api/blood_bank";
 import { Card, CardContent } from "../../../components/ui/Card";

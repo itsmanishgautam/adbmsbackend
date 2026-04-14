@@ -1,3 +1,8 @@
+// frontend/src/app/patient/components/MedicalInfoTab.tsx
+
+
+// this crud patient data but not display , it export.
+
 import { useEffect, useState } from "react";
 import { Patient } from "../../../types";
 import { getDependencies, createDependency, updateDependency, deleteDependency } from "../../../api/medical";
