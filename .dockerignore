@@ -1,0 +1,30 @@
+# Node
+node_modules
+frontend/node_modules
+.next
+
+# Python
+__pycache__
+*.pyc
+
+# Git
+.git
+.gitignore
+
+# Env files
+.env
+.env.*
+
+# Logs
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.yml
+
+# Misc
+*.zip
+*.tar
