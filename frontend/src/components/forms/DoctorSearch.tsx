@@ -28,7 +28,7 @@ export function DoctorSearch({ onFound }: { onFound: (patient: PatientCard) => v
   return (
     <form onSubmit={handleSearch} className="flex max-w-lg gap-2">
       <Input
-        placeholder="Enter Emergency ID (e.g. EMG-1234)"
+        placeholder="Enter Name, ID, or Phone..."
         value={identifier}
         onChange={(e) => setIdentifier(e.target.value)}
         error={error}

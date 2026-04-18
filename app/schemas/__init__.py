@@ -16,3 +16,4 @@ from .insurance import (
 )
 from .log import AccessLogBase, AccessLogCreate, AccessLogResponse
 from .blood_bank import BloodBankBase, BloodBankCreate, BloodBankUpdate, BloodBankResponse
+from .incident import IncidentBase, IncidentCreate, IncidentUpdate, IncidentResponse

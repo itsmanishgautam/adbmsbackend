@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Patient, PatientInsurance, InsuranceProvider } from "../../../../types";
+import { Patient, PatientInsurance, InsuranceProvider } from "../../../types";
 import { getPatientInsurances, getProviders, createPatientInsurance, updatePatientInsurance, deletePatientInsurance } from "../../../api/insurance";
 
 import { Card, CardHeader, CardTitle, CardContent } from "../../../components/ui/Card";

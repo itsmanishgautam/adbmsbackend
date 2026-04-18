@@ -8,5 +8,6 @@ from app.models.insurance import InsuranceProvider, PatientInsurance
 from app.models.log import AccessLog
 from app.models.user import UserRole
 from app.models.blood_bank import BloodBank
+from app.models.incident import Incident
 
 # For Alembic to discover all models

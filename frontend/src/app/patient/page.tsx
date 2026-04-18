@@ -58,7 +58,7 @@ export default function PatientDashboard() {
           <EmergencyCardEditor
             patient={patient}
             onUpdated={loadProfile}
-            user={user}
+            user={user as any}
             />
           </div>
 

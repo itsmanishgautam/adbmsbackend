@@ -9,6 +9,9 @@ export interface UserContext {
   name: string;
   email: string;
   role: Role;
+  phone_number?: string;
+  is_active?: boolean;
+  created_at?: string;
 }
 
 interface AuthState {

@@ -6,6 +6,7 @@ class DoctorBase(BaseModel):
     specialty: Optional[str] = None
     hospital_id: Optional[int] = None
     contact_info: Optional[str] = None
+    approval_status: Optional[str] = "approved"
 
 class DoctorCreate(DoctorBase):
     pass
@@ -14,6 +15,7 @@ class DoctorUpdate(BaseModel):
     specialty: Optional[str] = None
     hospital_id: Optional[int] = None
     contact_info: Optional[str] = None
+    approval_status: Optional[str] = None
 
 class DoctorResponse(DoctorBase):
     doctor_id: int

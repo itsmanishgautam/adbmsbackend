@@ -178,7 +178,7 @@ const DeviceItem = ({ item, onUpdate, onDelete }: any) => {
 
 const ContactItem = ({ item, onUpdate, onDelete }: any) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({ name: item.name, relationship: item.relationship, phone_number: item.phone_number });
+  const [formData, setFormData] = useState({ contact_name: item.contact_name, contact_relationship: item.contact_relationship, phone_number: item.phone_number });
 
   const handleSave = () => {
     onUpdate('emergency-contacts', item.contact_id, formData);
@@ -188,9 +188,9 @@ const ContactItem = ({ item, onUpdate, onDelete }: any) => {
   if (isEditing) {
     return (
       <div className="flex flex-col gap-2 p-3 bg-white rounded-xl border border-teal-200 shadow-sm">
-         <input value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full rounded border-slate-300 px-2 py-1 text-sm font-semibold" />
+         <input value={formData.contact_name} onChange={e => setFormData({...formData, contact_name: e.target.value})} className="w-full rounded border-slate-300 px-2 py-1 text-sm font-semibold" />
          <div className="flex gap-2">
-            <input value={formData.relationship} onChange={e => setFormData({...formData, relationship: e.target.value})} className="flex-1 rounded border-slate-300 px-2 py-1 text-sm" />
+            <input value={formData.contact_relationship} onChange={e => setFormData({...formData, contact_relationship: e.target.value})} className="flex-1 rounded border-slate-300 px-2 py-1 text-sm" />
             <input value={formData.phone_number} onChange={e => setFormData({...formData, phone_number: e.target.value})} className="flex-1 rounded border-slate-300 px-2 py-1 text-sm" />
          </div>
          <div className="flex justify-end gap-1 mt-1">
@@ -205,8 +205,8 @@ const ContactItem = ({ item, onUpdate, onDelete }: any) => {
     <div className="flex justify-between items-start p-4 bg-slate-50 rounded-xl border border-slate-200 shadow-sm group">
       <div>
         <h4 className="font-semibold text-slate-800 flex items-center">
-           {item.name}
-           <span className="ml-2 text-xs px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full">{item.relationship}</span>
+           {item.contact_name}
+           <span className="ml-2 text-xs px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full">{item.contact_relationship}</span>
            <ItemStatus status={item.approval_status} />
         </h4>
         <p className="text-sm text-slate-500 mt-1 font-mono">{item.phone_number}</p>
@@ -321,8 +321,8 @@ export default function MedicalInfoTab({ patient }: { patient: Patient | null })
   const handleAddContact = async (e: any) => {
     e.preventDefault();
     await createDependency("emergency-contacts", {
-      name: e.target.name.value,
-      relationship: e.target.relationship.value,
+      contact_name: e.target.contact_name.value,
+      contact_relationship: e.target.contact_relationship.value,
       phone_number: e.target.phone_number.value,
       patient_id: patient?.patient_id
     });
@@ -463,9 +463,9 @@ export default function MedicalInfoTab({ patient }: { patient: Patient | null })
             <form onSubmit={handleAddContact} className="bg-slate-50 p-4 rounded-xl border border-dashed border-slate-300">
               <h4 className="text-sm font-semibold text-slate-700 mb-3">Add Contact</h4>
               <div className="flex flex-col gap-2">
-                <input required name="name" placeholder="Contact Name" className="flex-1 rounded-md border-slate-300 px-3 py-1.5 text-sm" />
+                <input required name="contact_name" placeholder="Contact Name" className="flex-1 rounded-md border-slate-300 px-3 py-1.5 text-sm" />
                 <div className="flex gap-2">
-                  <input required name="relationship" placeholder="Relationship" className="flex-1 rounded-md border-slate-300 px-3 py-1.5 text-sm" />
+                  <input required name="contact_relationship" placeholder="Relationship" className="flex-1 rounded-md border-slate-300 px-3 py-1.5 text-sm" />
                   <input required name="phone_number" placeholder="Phone Number" className="flex-1 rounded-md border-slate-300 px-3 py-1.5 text-sm" />
 
 

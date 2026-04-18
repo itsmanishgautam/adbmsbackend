@@ -9,7 +9,8 @@ import {
   ShieldCheck, 
   Search, 
   Settings,
-  HeartPulse
+  HeartPulse,
+  FileText
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -23,14 +24,17 @@ export default function Sidebar() {
       { name: "Analytics", path: "/patient", icon: LayoutDashboard },
       { name: "Emergency Card", path: "/patient/card", icon: HeartPulse },
       { name: "Insurance", path: "/patient/insurance", icon: ShieldCheck },
+      { name: "Incidents", path: "/patient/incidents", icon: Search },
     ],
     doctor: [
-      { name: "Analytics", path: "/doctor", icon: LayoutDashboard },
-      { name: "Emergency Search", path: "/doctor/search", icon: Search },
+      { name: "Emergency Search", path: "/doctor", icon: Search },
+      { name: "My Profile", path: "/doctor/profile", icon: UserSquare2 },
+      { name: "Incidents", path: "/doctor/incidents", icon: FileText },
     ],
     admin: [
       { name: "Analytics", path: "/admin", icon: LayoutDashboard },
       { name: "User Management", path: "/admin/users", icon: UserSquare2 },
+      { name: "Pending Approvals", path: "/admin/notifications", icon: ShieldCheck },
       { name: "Access Logs", path: "/admin/logs", icon: Settings },
       { name: "Insurance Providers", path: "/admin/insurance", icon: ShieldCheck },
     ]

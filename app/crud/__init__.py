@@ -74,3 +74,7 @@ class CRUDAccessLog(CRUDBase[AccessLog, BaseModel, BaseModel]):
 
 access_log = CRUDAccessLog(AccessLog)
 from app.crud.crud_blood_bank import blood_bank
+
+from app.models.incident import Incident
+from app.schemas.incident import IncidentCreate, IncidentUpdate
+incident = CRUDBase[Incident, IncidentCreate, IncidentUpdate](Incident)

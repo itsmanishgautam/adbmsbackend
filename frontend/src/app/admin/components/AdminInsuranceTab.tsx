@@ -40,6 +40,9 @@ export default function AdminInsuranceProvidersTab() {
     const payload = {
       provider_name: e.target.provider_name.value,
       payer_phone: e.target.payer_phone.value,
+      contact_email: e.target.contact_email?.value,
+      website: e.target.website?.value,
+      address: e.target.address?.value,
     };
     try {
       await createProvider(payload);
@@ -68,6 +71,8 @@ export default function AdminInsuranceProvidersTab() {
                 </div>
                 <h4 className="font-semibold text-slate-900 text-lg">{p.provider_name}</h4>
                 <p className="text-slate-500 text-sm mt-1">{p.payer_phone || "No phone provided"}</p>
+                {p.contact_email && <p className="text-slate-500 text-sm mt-1">{p.contact_email}</p>}
+                {p.website && <p className="text-slate-500 text-sm mt-1 text-blue-500 hover:underline"><a href={p.website.startsWith('http') ? p.website : `https://${p.website}`} target="_blank" rel="noreferrer">{p.website}</a></p>}
                 <div className="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-400 uppercase tracking-wider">
                   System ID {p.provider_id}
                 </div>
@@ -79,7 +84,12 @@ export default function AdminInsuranceProvidersTab() {
             <h4 className="font-semibold text-slate-800 mb-4">Add Provider</h4>
             <div className="flex flex-col md:flex-row gap-4 mb-4">
               <input required name="provider_name" placeholder="Provider Name (e.g. Aetna)" className="flex-1 rounded-md border border-slate-300 py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary" />
-              <input name="payer_phone" placeholder="Phone (optional)" className="flex-1 rounded-md border border-slate-300 py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary" />
+              <input name="payer_phone" placeholder="Phone (optional)" className="flex-[0.5] rounded-md border border-slate-300 py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary" />
+              <input name="contact_email" placeholder="Email Contact" className="flex-1 rounded-md border border-slate-300 py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary" />
+            </div>
+            <div className="flex flex-col md:flex-row gap-4 mb-4">
+              <input name="website" placeholder="Website URL" className="flex-1 rounded-md border border-slate-300 py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary" />
+              <input name="address" placeholder="Corporate Address" className="flex-[2] rounded-md border border-slate-300 py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary" />
             </div>
 
             <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium shadow-sm transition-colors text-sm flex items-center gap-2">

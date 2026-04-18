@@ -5,6 +5,9 @@ from typing import Optional
 class InsuranceProviderBase(BaseModel):
     provider_name: str
     payer_phone: Optional[str] = None
+    contact_email: Optional[str] = None
+    website: Optional[str] = None
+    address: Optional[str] = None
 
 class InsuranceProviderCreate(InsuranceProviderBase):
     pass

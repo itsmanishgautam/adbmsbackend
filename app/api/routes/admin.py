@@ -50,6 +50,28 @@ async def delete_user(
     user = await crud.user.get(db, id=id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
+        
+    import sqlalchemy
+    
+    # 1. Clean up potential Access Logs attached to this user
+    await db.execute(sqlalchemy.delete(models.AccessLog).where(models.AccessLog.user_id == id))
+    
+    # 2. Clean up Doctor Profile if present
+    await db.execute(sqlalchemy.delete(models.Doctor).where(models.Doctor.user_id == id))
+    
+    # 3. Clean up Patient Profile and its dependencies
+    patient_query = await db.execute(sqlalchemy.select(models.Patient).where(models.Patient.user_id == id))
+    patient = patient_query.scalars().first()
+    if patient:
+        p_id = patient.patient_id
+        await db.execute(sqlalchemy.delete(models.Allergy).where(models.Allergy.patient_id == p_id))
+        await db.execute(sqlalchemy.delete(models.Condition).where(models.Condition.patient_id == p_id))
+        await db.execute(sqlalchemy.delete(models.Medication).where(models.Medication.patient_id == p_id))
+        await db.execute(sqlalchemy.delete(models.Device).where(models.Device.patient_id == p_id))
+        await db.execute(sqlalchemy.delete(models.EmergencyContact).where(models.EmergencyContact.patient_id == p_id))
+        await db.execute(sqlalchemy.delete(models.PatientInsurance).where(models.PatientInsurance.patient_id == p_id))
+        await db.execute(sqlalchemy.delete(models.Patient).where(models.Patient.patient_id == p_id))
+
     await crud.user.remove(db, id=id)
     await log_admin_action(db, current_user, "Delete", "User", {"target_id": id})
     return {"message": "User deleted"}
@@ -109,23 +131,33 @@ async def create_doctor(
             status_code=400,
             detail="The user with this email already exists in the system.",
         )
-    user_create = schemas.UserCreate(
-        name=doctor_in.name,
+        
+    from app.core.security import get_password_hash
+    
+    # 1. Prepare User
+    db_user = models.User(
         email=doctor_in.email,
-        password=doctor_in.password,
+        password_hash=get_password_hash(doctor_in.password),
+        name=doctor_in.name,
         role=models.UserRole.doctor
     )
-    user = await crud.user.create(db, obj_in=user_create)
+    db.add(db_user)
+    await db.flush() # Get user ID without committing transaction
 
-    doctor_data = schemas.DoctorCreate(
-        user_id=user.id,
+    # 2. Prepare Doctor
+    db_doctor = models.Doctor(
+        user_id=db_user.id,
         specialty=doctor_in.specialty,
         hospital_id=doctor_in.hospital_id
     )
-    await crud.doctor.create(db, obj_in=doctor_data)
+    db.add(db_doctor)
     
-    await log_admin_action(db, current_user, "Create", "Doctor", {"target_user_id": user.id})
-    return user
+    # 3. Commit atomic transaction
+    await db.commit()
+    await db.refresh(db_user)
+    
+    await log_admin_action(db, current_user, "Create", "Doctor", {"target_user_id": db_user.id})
+    return db_user
 
 @router.put("/doctors/{id}", response_model=schemas.DoctorResponse)
 async def update_doctor(
@@ -211,3 +243,39 @@ async def set_patient_profile_status(
     await db.commit()
     await log_admin_action(db, current_user, status.capitalize(), "Patient Profile", {"target_user_id": user_id})
     return {"message": f"Profile and all associated details {status} successfully"}
+
+@router.get("/notifications")
+async def get_admin_notifications(
+    db: AsyncSession = Depends(get_db),
+    current_user: models.User = Depends(require_role("admin"))
+) -> Any:
+    from sqlalchemy import select
+    notifications = []
+    
+    # Check Patients
+    patients = await db.execute(select(models.Patient).where(models.Patient.approval_status == "pending"))
+    for p in patients.scalars().all():
+        notifications.append({"type": "patient_profile", "id": p.patient_id, "user_id": p.user_id, "message": f"Patient profile update pending approval"})
+        
+    # Check Doctors
+    doctors = await db.execute(select(models.Doctor).where(models.Doctor.approval_status == "pending"))
+    for d in doctors.scalars().all():
+        notifications.append({"type": "doctor_profile", "id": d.doctor_id, "user_id": d.user_id, "message": f"Doctor profile update pending approval"})
+        
+    # Check Medical (Allergies)
+    allergies = await db.execute(select(models.Allergy).where(models.Allergy.approval_status == "pending"))
+    for a in allergies.scalars().all():
+        notifications.append({"type": "allergy", "id": a.allergy_id, "patient_id": a.patient_id, "message": f"Allergy addition pending approval"})
+        
+    # Check Medical (Conditions)
+    conditions = await db.execute(select(models.Condition).where(models.Condition.approval_status == "pending"))
+    for c in conditions.scalars().all():
+        notifications.append({"type": "condition", "id": c.condition_id, "patient_id": c.patient_id, "message": f"Condition addition pending approval"})
+        
+    # Check Medical (Medications)
+    medications = await db.execute(select(models.Medication).where(models.Medication.approval_status == "pending"))
+    for m in medications.scalars().all():
+        notifications.append({"type": "medication", "id": m.medication_id, "patient_id": m.patient_id, "message": f"Medication addition pending approval"})
+        
+    return {"notifications": notifications, "count": len(notifications)}
+

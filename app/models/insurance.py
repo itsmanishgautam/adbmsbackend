@@ -8,6 +8,9 @@ class InsuranceProvider(Base):
     provider_id = Column(Integer, primary_key=True, index=True)
     provider_name = Column(String(255), nullable=False)
     payer_phone = Column(String(50))
+    contact_email = Column(String(255), nullable=True)
+    website = Column(String(255), nullable=True)
+    address = Column(String(500), nullable=True)
 
     insurances = relationship("PatientInsurance", back_populates="provider")
 

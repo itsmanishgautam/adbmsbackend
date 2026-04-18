@@ -65,6 +65,9 @@ export interface InsuranceProvider {
   provider_id: number;
   provider_name: string;
   payer_phone?: string;
+  contact_email?: string;
+  website?: string;
+  address?: string;
 }
 
 export interface PatientInsurance {
