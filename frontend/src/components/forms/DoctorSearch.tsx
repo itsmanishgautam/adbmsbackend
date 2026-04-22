@@ -1,23 +1,36 @@
+"use client";
+
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { searchPatient } from "../../api/patients";
 import { PatientCard } from "../../types";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
-import { Search, AlertCircle } from "lucide-react";
+import { Search } from "lucide-react";
 
-export function DoctorSearch({ onFound }: { onFound: (patient: PatientCard) => void }) {
+export function DoctorSearch({
+  onFound,
+}: {
+  onFound?: (patient: PatientCard) => void;
+}) {
   const [identifier, setIdentifier] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const router = useRouter();
+
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!identifier) return;
+
     setLoading(true);
     setError("");
+
     try {
-      const data = await searchPatient(identifier);
-      onFound(data);
+      const cleanIdentifier = identifier.trim();
+      const data = await searchPatient(cleanIdentifier);
+
+      if (onFound) onFound(data);
     } catch (err: any) {
       setError(err.response?.data?.detail || "Patient not found.");
     } finally {

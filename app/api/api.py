@@ -11,3 +11,4 @@ api_router.include_router(insurance.router, prefix="", tags=["insurance"])
 api_router.include_router(blood_bank.router, prefix="/blood-bank", tags=["blood-bank"])
 api_router.include_router(incidents.router, prefix="/incidents", tags=["incidents"])
 
+

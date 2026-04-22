@@ -1,3 +1,5 @@
+// frontend/src/components/cards/EmergencyCard.tsx
+
 import { PatientCard } from "../../types";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/Card";
 import { AlertCircle, Activity, Droplets } from "lucide-react";

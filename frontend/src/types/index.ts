@@ -82,4 +82,34 @@ export interface PatientInsurance {
 
 export interface PatientCard extends Patient {
   name: string;
+
+  allergies: {
+    name: string;
+    critical: boolean;
+  }[];
+
+  conditions: {
+    name: string;
+    critical: boolean;
+  }[];
+
+  medications: {
+    name: string;
+    dosage?: string;
+  }[];
+
+  devices: {
+    name: string;
+  }[];
+
+  emergency_contacts: {
+    name: string;
+    phone: string;
+    relationship: string;
+  }[];
+
+  insurance: {
+    provider: string;
+    policy_number: string;
+  }[];
 }
